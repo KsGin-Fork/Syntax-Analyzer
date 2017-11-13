@@ -1,0 +1,10 @@
+/*
+ * File   : util
+ * Author : KsGin 
+ * Date   : 2017/11/13
+ */
+
+#ifndef LL1GRAMMER_SYNTAX_ANALYZER_UTIL_H
+#define LL1GRAMMER_SYNTAX_ANALYZER_UTIL_H
+
+#endif //LL1GRAMMER_SYNTAX_ANALYZER_UTIL_H
