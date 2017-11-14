@@ -2,16 +2,22 @@
 #include "util.h"
 int main() {
 
-    Grammar g { InitGNode("E->S|aS|bS|c") ,
-                InitGNode("S->,wa|s")
-                };
+
+    /**
+     *
+     */
+    Grammar g = InitGrammar({ InitGNode("E->TK") ,
+                InitGNode("K->+TK"),
+                InitGNode("K->$"),
+                InitGNode("T->FM"),
+                InitGNode("M->*FM"),
+                InitGNode("M->$"),
+                InitGNode("F->i"),
+                InitGNode("F->(E)")
+                });
 
 
-    auto ve = GetFirstSet('E' , g);
-    auto vs = GetFirstSet('S' , g);
-
-    PrintFirst('E' , ve);
-    PrintFirst('S' , vs);
+    PrintAllFollowAndFirst(g);
 
     return 0;
 }
