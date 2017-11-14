@@ -108,4 +108,18 @@ Table GetLL1AnalyseTable(Grammar g);
  */
 void PrintLL1AnalyseTable(Grammar g);
 
+/**
+ * 分析总控程序
+ * @param g 文法
+ * @param str 待分析串
+ */
+std::string Analyse(Grammar g , std::string str);
+
+/**
+ * 获得栈内内容
+ * @param sta 栈
+ * @return 字符串
+ */
+std::string GetStackContent(std::stack<Symbol> sta);
+
 #endif //LL1GRAMMER_SYNTAX_ANALYZER_UTIL_H

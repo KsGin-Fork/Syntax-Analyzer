@@ -23,5 +23,9 @@ int main() {
     //打印预测分析表
     std::cout << "预测分析表 : " << std::endl;
     PrintLL1AnalyseTable(g);
+
+    //分析过程
+    std::cout << "分析过程 : " << std::endl;
+    Analyse(g , "i+i*i");
     return 0;
 }

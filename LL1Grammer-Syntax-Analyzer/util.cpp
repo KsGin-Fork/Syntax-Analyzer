@@ -4,6 +4,7 @@
  * Date   : 2017/11/13
  */
 
+#include <sstream>
 #include "util.h"
 
 /**
@@ -349,4 +350,101 @@ void PrintLL1AnalyseTable(Grammar g){
         }
         printf("\n");
     }
+}
+
+/**
+ * 分析总控程序
+ * @param g 文法
+ * @param str 待分析串
+ */
+std::string Analyse(Grammar g , std::string str){
+
+    auto table = GetLL1AnalyseTable(g);
+    auto finalSymbols = GetAllFinalSymbol(g);
+    auto notFinalSymbols = GetAllNotFinalSymbol(g);
+    //使用map映射符号值和在表中的索引方便操作
+    std::unordered_map<Symbol , int> idx;
+    for (int i = 0; i < finalSymbols.size(); ++i) {
+        idx.insert(std::pair<Symbol , int>(finalSymbols[i] , i));
+    }
+    idx.insert(std::pair<Symbol , int>('#' , finalSymbols.size()));
+    for (int i = 0; i < notFinalSymbols.size(); ++i) {
+        idx.insert(std::pair<Symbol , int>(notFinalSymbols[i] , i));
+    }
+
+    //初始化分析栈
+    std::stack<Symbol> sta;
+    sta.push('#');
+    sta.push(g[0].left);
+
+    //初始化输入串(添加后缀#)
+    auto instr = str + '#';
+    auto pos = 0;   //字符串读取到的位置
+
+    //字符串流
+    std::stringstream ss;
+
+    //主分析循环(Acc结束条件)
+    while (!sta.empty()){
+        if(sta.top() == '#' || IsFinalSymbol(sta.top() , g)){   //当栈顶端是终结符
+            if(instr[pos] == sta.top()) { //与输入串相等 ， 出栈 ， pos + 1
+                printf("%10s %20s %20s\n" ,
+                       GetStackContent(sta).c_str() ,
+                       instr.substr(static_cast<unsigned long>(pos)).c_str() ,
+                       sta.top() == '#' ? "接受" : "匹配");
+                pos++;
+                sta.pop();
+            } else {
+                return "出错，出错位置为 " + std::to_string(pos);
+            }
+        } else { //顶端是非终结符
+            int i = idx[sta.top()];
+            int j = idx[instr[pos]];
+            if(i < table.size() && j < table[0].size()){ //i j 在允许范围内  查表
+                auto tmp = table[i][j];
+                if(tmp == "error")
+                    return "出错，出错位置为 " + std::to_string(pos);
+                if(tmp != "$"){
+                    ss.str("");
+                    ss << "执行" << sta.top() << "->" << tmp;
+                    printf("%10s %20s %20s\n" ,
+                           GetStackContent(sta).c_str() ,
+                           instr.substr(static_cast<unsigned long>(pos)).c_str() ,
+                           ss.str().c_str());
+                    sta.pop();
+                    for (auto t = static_cast<int>(tmp.size() - 1); t >= 0 ; --t) { //反向入栈
+                        sta.push(tmp[t]);
+                    }
+                }else {
+
+                    ss.str("");
+                    ss << "执行" << sta.top() << "->" << tmp;
+
+                    printf("%10s %20s %20s\n" ,
+                           GetStackContent(sta).c_str() ,
+                           instr.substr(static_cast<unsigned long>(pos)).c_str() ,
+                           ss.str().c_str());
+                    sta.pop();
+                }
+
+            }
+        }
+    }
+
+    return "Accept";
+}
+
+
+/**
+ * 获得栈内内容
+ * @param sta 栈
+ * @return 字符串
+ */
+std::string GetStackContent(std::stack<Symbol> sta){
+    std::string s;
+    while (!sta.empty()){
+        s = sta.top() + s;
+        sta.pop();
+    }
+    return s;
 }

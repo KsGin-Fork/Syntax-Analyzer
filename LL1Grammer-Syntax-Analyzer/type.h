@@ -15,6 +15,8 @@
 #include <vector>
 #include <set>
 #include <iostream>
+#include <unordered_map>
+#include <stack>
 
 /**
  * 产生式定义  Left= right1 | right2 | right3 | ...
