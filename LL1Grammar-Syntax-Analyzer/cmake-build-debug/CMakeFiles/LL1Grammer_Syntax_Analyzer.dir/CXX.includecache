@@ -1,0 +1,36 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/KsGin/Documents/Compilers/Syntax-Analyzer/LL1Grammar-Syntax-Analyzer/test.cpp
+util.h
+/Users/KsGin/Documents/Compilers/Syntax-Analyzer/LL1Grammar-Syntax-Analyzer/util.h
+
+/Users/KsGin/Documents/Compilers/Syntax-Analyzer/LL1Grammar-Syntax-Analyzer/type.h
+string
+-
+vector
+-
+set
+-
+iostream
+-
+unordered_map
+-
+stack
+-
+
+/Users/KsGin/Documents/Compilers/Syntax-Analyzer/LL1Grammar-Syntax-Analyzer/util.cpp
+sstream
+-
+util.h
+/Users/KsGin/Documents/Compilers/Syntax-Analyzer/LL1Grammar-Syntax-Analyzer/util.h
+
+/Users/KsGin/Documents/Compilers/Syntax-Analyzer/LL1Grammar-Syntax-Analyzer/util.h
+type.h
+/Users/KsGin/Documents/Compilers/Syntax-Analyzer/LL1Grammar-Syntax-Analyzer/type.h
+
