@@ -186,8 +186,27 @@ void PrintFollow(Symbol s , std::vector<Symbol> follow){
  * @param g 文法
  */
 void PrintAllFollowAndFirst(Grammar g){
+    std::cout << "Fitst:" << std::endl;
     for (auto gn : g) {
         PrintFirst(gn.left , GetFirstSet(gn.left , g));
+    }
+    std::cout << "Follow:" << std::endl;
+    for (auto gn : g){
         PrintFollow(gn.left , GetFollowSet(gn.left , g));
+    }
+}
+
+/**
+ * 打印文法
+ * @param g 文法
+ */
+void PrintGrammar(Grammar g){
+    for (auto gn : g){
+        std::cout << gn.left << " -> ";
+        if(gn.right.empty()) continue;
+        for (int i = 0; i < gn.right.size()-1; ++i) {
+            std::cout << gn.right[i] << " | ";
+        }
+        std::cout << gn.right[gn.right.size()-1] << std::endl;
     }
 }

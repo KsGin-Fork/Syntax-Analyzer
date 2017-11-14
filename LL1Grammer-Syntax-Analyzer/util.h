@@ -74,4 +74,10 @@ void PrintFollow(Symbol s , std::vector<Symbol> follow);
  * @param g 文法
  */
 void PrintAllFollowAndFirst(Grammar g);
+
+/**
+ * 打印文法
+ * @param g 文法
+ */
+void PrintGrammar(Grammar g);
 #endif //LL1GRAMMER_SYNTAX_ANALYZER_UTIL_H
