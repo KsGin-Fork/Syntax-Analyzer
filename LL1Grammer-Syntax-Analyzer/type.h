@@ -35,6 +35,13 @@ public:
 
 typedef std::vector<GNode> Grammar;
 
+/**
+ * 表定义
+ */
+typedef std::vector<std::vector<Right>> Table;
 
+/**
+ * 符号定义
+ */
 typedef char Symbol;
 #endif //LL1GRAMMER_SYNTAX_ANALYZER_TYPE_H

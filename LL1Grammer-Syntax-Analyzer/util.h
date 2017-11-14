@@ -40,6 +40,20 @@ std::vector<Symbol> GetFirstSet(Symbol symbol , Grammar g);
 std::vector<Symbol> GetFollowSet(Symbol symbol , Grammar g);
 
 /**
+ * 获得所有终结符
+ * @param g
+ * @return
+ */
+std::vector<Symbol> GetAllFinalSymbol(Grammar g);
+
+/**
+ * 获得所有非终结符
+ * @param g
+ * @return
+ */
+std::vector<Symbol> GetAllNotFinalSymbol(Grammar g);
+
+/**
  * 是否是终结符
  * @param symbol 符号
  * @param g 文法
@@ -80,4 +94,18 @@ void PrintAllFollowAndFirst(Grammar g);
  * @param g 文法
  */
 void PrintGrammar(Grammar g);
+
+/**
+ * 获得预测分析表 LL1表
+ * @param g
+ * @return
+ */
+Table GetLL1AnalyseTable(Grammar g);
+
+/**
+ * 打印文法的LL1预测分析表
+ * @param g
+ */
+void PrintLL1AnalyseTable(Grammar g);
+
 #endif //LL1GRAMMER_SYNTAX_ANALYZER_UTIL_H

@@ -80,6 +80,8 @@ std::vector<Symbol> GetFirstSet(Symbol symbol , Grammar g){
 std::vector<Symbol> GetFollowSet(Symbol symbol , Grammar g){
     std::set<Symbol> follow;
 
+    follow.insert('#'); //添加结束符
+
     //找到所有包含symbol的右部
     for (auto gn : g){
         for (auto r : gn.right){
@@ -112,12 +114,44 @@ std::vector<Symbol> GetFollowSet(Symbol symbol , Grammar g){
             }
         }
     }
-
     //去掉follow集中的空符号
     follow.erase('$');
 
     return std::vector<Symbol>(follow.begin() , follow.end());
 }
+
+
+/**
+ * 获得所有终结符
+ * @param g
+ * @return
+ */
+std::vector<Symbol> GetAllFinalSymbol(Grammar g){
+    std::set<Symbol> finalSymbols;
+    for(auto gn : g){
+        for(const auto &gns : gn.right){
+            for (auto sym : gns) {
+                if(IsFinalSymbol(sym , g)) finalSymbols.insert(sym);
+            }
+        }
+    }
+    finalSymbols.erase('$');
+    return std::vector<Symbol>(finalSymbols.begin() , finalSymbols.end());
+}
+
+/**
+ * 获得所有非终结符
+ * @param g
+ * @return
+ */
+std::vector<Symbol> GetAllNotFinalSymbol(Grammar g){
+    std::set<Symbol> notFinalSymbols;
+    for (auto gn : g){
+        notFinalSymbols.insert(gn.left);
+    }
+    return std::vector<Symbol>(notFinalSymbols.begin() , notFinalSymbols.end());
+}
+
 
 /**
  * 是否是终结符
@@ -126,6 +160,7 @@ std::vector<Symbol> GetFollowSet(Symbol symbol , Grammar g){
  * @return true | false
  */
 bool IsFinalSymbol(Symbol symbol  , Grammar g){
+    if(symbol == '#') return false;
     for (auto s : g){
         if(s.left == symbol) return false;
     }
@@ -208,5 +243,110 @@ void PrintGrammar(Grammar g){
             std::cout << gn.right[i] << " | ";
         }
         std::cout << gn.right[gn.right.size()-1] << std::endl;
+    }
+}
+
+
+/**
+ * 获得预测分析表 LL1表
+ * @param g
+ * @return
+ */
+Table GetLL1AnalyseTable(Grammar g){
+
+    auto finalSymbols = GetAllFinalSymbol(g);
+    auto notFinalSymbols = GetAllNotFinalSymbol(g);
+    auto finalSymbolsSize = finalSymbols.size();
+    auto notFinalSymbolsSize = notFinalSymbols.size();
+
+    finalSymbols.push_back('#');
+    ++finalSymbolsSize;
+
+    Table analyseTable(notFinalSymbolsSize , std::vector<Right>(finalSymbolsSize , "error"));
+
+    for (int i = 0 ; i < notFinalSymbols.size() ; ++i){
+        auto gn = FindGNode(notFinalSymbols[i] , g);
+        for (auto &j : gn.right) {
+            if(IsFinalSymbol(j[0] , g)){
+                //如果是终结符
+                if(j[0] != '$'){
+                    //符号不为空
+                    int idx = static_cast<int>(std::distance(
+                            finalSymbols.begin(),
+                            std::find(finalSymbols.begin() ,
+                                      finalSymbols.end() , j[0])));
+                    analyseTable[i][idx] = j;
+                } else {
+                    //符号为空
+                    auto follow = GetFollowSet(gn.left , g); //找这个节点对应的Follow集
+                    for (auto s : follow){
+                        int idx = static_cast<int>(std::distance(
+                                finalSymbols.begin(),
+                                std::find(finalSymbols.begin() ,
+                                          finalSymbols.end() , s)));
+                        if (s == '#') analyseTable[i][idx] = '$';
+                        else analyseTable[i][idx] = j;
+                    }
+                }
+
+            } else {
+                //如果不是  找他的First集
+                auto first = GetFirstSet(j[0] , g);
+                for (auto s : first){
+                    int idx = static_cast<int>(std::distance(
+                            finalSymbols.begin(),
+                            std::find(finalSymbols.begin() ,
+                                      finalSymbols.end() , s)));
+                    analyseTable[i][idx] = j;
+                }
+
+                if(std::find(first.begin() , first.end() , '$') != std::end(first)){
+                    //如果first集里存在空字符,则寻找follow集
+                    auto follow = GetFollowSet(j[0] , g);
+                    for (auto s : follow){
+                        int idx = static_cast<int>(std::distance(
+                                finalSymbols.begin(),
+                                std::find(finalSymbols.begin() ,
+                                          finalSymbols.end() , s)));
+                        if (s == '#') analyseTable[i][idx] = '$';
+                        else analyseTable[i][idx] = j;
+                    }
+                }
+
+            }
+        }
+    }
+
+    return analyseTable;
+}
+
+/**
+ * 打印文法的LL1预测分析表
+ * @param g
+ */
+void PrintLL1AnalyseTable(Grammar g){
+
+    auto finalSymbols = GetAllFinalSymbol(g);
+    auto notFinalSymbols = GetAllNotFinalSymbol(g);
+
+    //打印表头
+    printf("%5s" , "");
+
+    for (auto fsym : finalSymbols){
+        printf("%20c" , fsym);
+    }
+
+    printf("%20c" , '#');
+
+    printf("\n");
+
+    Table t = GetLL1AnalyseTable(g);
+
+    for (int i = 0 ; i < notFinalSymbols.size() ; ++i){
+        printf("%5c" , notFinalSymbols[i]);
+        for (int j = 0 ; j < finalSymbols.size() + 1 ; ++j){
+            printf("%20s" , t[i][j].c_str());
+        }
+        printf("\n");
     }
 }
