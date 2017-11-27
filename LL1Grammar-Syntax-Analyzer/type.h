@@ -34,7 +34,6 @@ public:
 /**
  * 文法定义
  */
-
 typedef std::vector<GNode> Grammar;
 
 /**

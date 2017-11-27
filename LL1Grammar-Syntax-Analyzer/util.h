@@ -113,7 +113,7 @@ void PrintLL1AnalyseTable(Grammar g);
  * @param g 文法
  * @param str 待分析串
  */
-std::string Analyse(Grammar g , std::string str);
+std::string Analyse(Grammar g , std::string str , Symbol start);
 
 /**
  * 获得栈内内容
@@ -122,4 +122,49 @@ std::string Analyse(Grammar g , std::string str);
  */
 std::string GetStackContent(std::stack<Symbol> sta);
 
+
+/**
+ * 判断文法是否含有左递归
+ * @param g 文法
+ * @return 是/否
+ */
+bool IsContainLeftRecursion(Grammar g);
+
+/**
+ * 判断文法是否含有左递归的子功能方法
+ * @param g 文法
+ * @param gn 产生式
+ * @param leftSymbol 左值
+ * @return 是/否
+ */
+bool IsFindLeftSymbol(Grammar g, GNode gn , Left leftSymbol , std::set<Symbol>& visitedNotFinalSet);
+
+
+/**
+ * 消除左递归
+ * @param g 文法
+ */
+void FixLeftRecursion(Grammar& g);
+
+/**
+ * 消除左递归子功能方法
+ * @param g 文法
+ * @param gn 产生式
+ */
+void AppendRight(Grammar g , GNode& gn, std::set<Symbol> &visitedNotFinalSet);
+
+/**
+ * 找到有用的非终结符
+ * @param g 文法
+ * @param usedSymbols 有用的非终结符
+ * @param symbol 当前查找到的符号
+ */
+void GetUsedNotFinalSymbol(Grammar g , std::set<Symbol> &usedSymbols , Symbol symbol);
+
+/**
+ * 判断文法是否是LL1
+ * @param g 文法
+ * @return 是/否
+ */
+bool IsLL1(Grammar g);
 #endif //LL1GRAMMER_SYNTAX_ANALYZER_UTIL_H
