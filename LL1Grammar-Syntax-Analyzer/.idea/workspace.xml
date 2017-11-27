@@ -45,8 +45,8 @@
       <file leaf-file-name="util.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/util.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="275">
-              <caret line="562" column="19" lean-forward="true" selection-start-line="562" selection-start-column="19" selection-end-line="562" selection-end-column="19" />
+            <state relative-caret-position="265">
+              <caret line="523" column="0" lean-forward="true" selection-start-line="523" selection-start-column="0" selection-end-line="523" selection-end-column="0" />
               <folding>
                 <element signature="e#67#85#0" expanded="true" />
               </folding>
@@ -57,8 +57,8 @@
       <file leaf-file-name="util.h" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/util.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="246">
-              <caret line="165" column="8" lean-forward="false" selection-start-line="165" selection-start-column="8" selection-end-line="165" selection-end-column="8" />
+            <state relative-caret-position="374">
+              <caret line="176" column="40" lean-forward="false" selection-start-line="176" selection-start-column="40" selection-end-line="176" selection-end-column="40" />
               <folding />
             </state>
           </provider>
@@ -105,9 +105,9 @@
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/CMakeLists.txt" />
         <option value="$PROJECT_DIR$/type.h" />
+        <option value="$PROJECT_DIR$/test.cpp" />
         <option value="$PROJECT_DIR$/util.h" />
         <option value="$PROJECT_DIR$/util.cpp" />
-        <option value="$PROJECT_DIR$/test.cpp" />
       </list>
     </option>
   </component>
@@ -228,12 +228,12 @@
       <workItem from="1511256921387" duration="440000" />
       <workItem from="1511440473598" duration="569000" />
       <workItem from="1511537149819" duration="23000" />
-      <workItem from="1511671347389" duration="21629000" />
+      <workItem from="1511671347389" duration="21956000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="62807000" />
+    <option name="totallyTimeSpent" value="63134000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
@@ -696,14 +696,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/util.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="246">
-          <caret line="165" column="8" lean-forward="false" selection-start-line="165" selection-start-column="8" selection-end-line="165" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/test.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="526">
@@ -712,10 +704,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/util.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="176" column="40" lean-forward="false" selection-start-line="176" selection-start-column="40" selection-end-line="176" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/util.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="275">
-          <caret line="562" column="19" lean-forward="true" selection-start-line="562" selection-start-column="19" selection-end-line="562" selection-end-column="19" />
+        <state relative-caret-position="265">
+          <caret line="523" column="0" lean-forward="true" selection-start-line="523" selection-start-column="0" selection-end-line="523" selection-end-column="0" />
           <folding>
             <element signature="e#67#85#0" expanded="true" />
           </folding>

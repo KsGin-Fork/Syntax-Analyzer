@@ -167,4 +167,12 @@ void GetUsedNotFinalSymbol(Grammar g , std::set<Symbol> &usedSymbols , Symbol sy
  * @return 是/否
  */
 bool IsLL1(Grammar g);
+
+
+/**
+ * 消除直接左递归
+ * @param g
+ * @return
+ */
+bool FixLeftDirectRecursion(Grammar& g);
 #endif //LL1GRAMMER_SYNTAX_ANALYZER_UTIL_H

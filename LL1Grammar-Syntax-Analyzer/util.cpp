@@ -497,37 +497,8 @@ void FixLeftRecursion(Grammar &g) {
     std::vector<GNode> newg;
     std::vector<Symbol> newgleft;
 
-    //修复直接递归产生式
-    for (auto& gn : g) {
-        bool isHave = false;
-        for (auto &gnr : gn.right) {
-            if (gn.left == gnr[0]) {
-                isHave = true;
-                break;
-            }
-        }
-        if (isHave) {
-            //添加一个新节点
-            auto newSymbol = 'A';
-            while (!IsFinalSymbol(newSymbol, g)) ++newSymbol;
-            GNode tmpg1 = GNode();
-            tmpg1.left = newSymbol;
-            GNode tmpg2 = GNode();
-            tmpg2.left = gn.left;
-            for (auto &gnr : gn.right) {
-                if (gnr[0] == gn.left) {
-                    auto s = gnr.substr(1);
-                    tmpg1.right.push_back(s + newSymbol);
-                } else {
-                    tmpg2.right.push_back(gnr + newSymbol);
-                }
-            }
-            gn = tmpg2;
-            tmpg1.right.emplace_back("$");
-            g.push_back(tmpg1);
-        }
-    }
-
+    //先消除直接左递归
+    FixLeftDirectRecursion(g);
 
     //间接左递归化为直接左递归
     auto allNotFinalSymbols = GetAllNotFinalSymbol(g);
@@ -551,36 +522,8 @@ void FixLeftRecursion(Grammar &g) {
         ng.push_back(FindGNode(us, newg));
     }
 
-    //修复直接递归产生式
-    for (auto& gn : ng) {
-        bool isHave = false;
-        for (auto &gnr : gn.right) {
-            if (gn.left == gnr[0]) {
-                isHave = true;
-                break;
-            }
-        }
-        if (isHave) {
-            //添加一个新节点
-            auto newSymbol = 'A';
-            while (!IsFinalSymbol(newSymbol, ng)) ++newSymbol;
-            GNode tmpg1 = GNode();
-            tmpg1.left = newSymbol;
-            GNode tmpg2 = GNode();
-            tmpg2.left = gn.left;
-            for (auto &gnr : gn.right) {
-                if (gnr[0] == gn.left) {
-                    auto s = gnr.substr(1);
-                    tmpg1.right.push_back(s + newSymbol);
-                } else {
-                    tmpg2.right.push_back(gnr + newSymbol);
-                }
-            }
-            gn = tmpg2;
-            tmpg1.right.emplace_back("$");
-            ng.push_back(tmpg1);
-        }
-    }
+    //消除如上步骤后产生的直接左递归
+    FixLeftDirectRecursion(ng);
 
     g = ng;
 }
@@ -653,5 +596,44 @@ bool IsLL1(Grammar g){
     }
 
     return true;
+}
+
+/**
+ * 消除直接左递归
+ * @param g
+ * @return
+ */
+bool FixLeftDirectRecursion(Grammar& g){
+    //修复直接递归产生式
+    for (auto& gn : g) {
+        bool isHave = false;
+        for (auto &gnr : gn.right) {
+            if (gn.left == gnr[0]) {
+                isHave = true;
+                break;
+            }
+        }
+        if (isHave) {
+            //添加一个新节点
+            auto newSymbol = 'A';
+            while (!IsFinalSymbol(newSymbol, g)) ++newSymbol;
+            GNode tmpg1 = GNode();
+            tmpg1.left = newSymbol;
+            GNode tmpg2 = GNode();
+            tmpg2.left = gn.left;
+            for (auto &gnr : gn.right) {
+                if (gnr[0] == gn.left) {
+                    auto s = gnr.substr(1);
+                    tmpg1.right.push_back(s + newSymbol);
+                } else {
+                    tmpg2.right.push_back(gnr + newSymbol);
+                }
+            }
+            gn = tmpg2;
+            tmpg1.right.emplace_back("$");
+            g.push_back(tmpg1);
+        }
+    }
+
 }
 
